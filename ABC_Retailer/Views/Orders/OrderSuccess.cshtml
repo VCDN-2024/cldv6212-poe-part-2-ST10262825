@@ -1,0 +1,15 @@
+﻿@model ABC_Retailer.Models.Customer
+
+@{
+    ViewData["Title"] = "Order Confirmation";
+    Layout = "_Layout"; // Adjust this according to your layout
+}
+
+<div class="container mt-5">
+    <div class="alert alert-success text-center" style="border: 2px solid #28a745; background-color: #e2f0d6;">
+        <h1 style="color: #155724; font-weight: bold;">Order Successfully Placed!</h1>
+        <p style="color: #6c757d; font-weight: bold;">We will notify you via email once your order is processed.</p>
+        <hr style="border-top: 2px solid #28a745;" />
+        <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Home")" style="background-color: #007bff; border-color: #007bff; font-weight: bold;">Return to Home</a>
+    </div>
+</div>

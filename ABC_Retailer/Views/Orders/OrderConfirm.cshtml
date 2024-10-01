@@ -1,0 +1,14 @@
+﻿@model ABC_Retailer.Models.Customer // Adjust as necessary based on your model
+
+@{
+    ViewData["Title"] = "Order Confirmation";
+    Layout = "_Layout"; // Adjust according to your layout
+}
+
+<div class="container mt-5">
+    <div class="alert alert-success text-center">
+        <h1>Order Successfully Confirmed!</h1>
+        <p>Your order has been confirmed. We will notify you via email once your order is processed.</p>
+        <a class="btn btn-primary" href="@Url.Action("Index", "Home")">Return to Home</a>
+    </div>
+</div>

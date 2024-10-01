@@ -1,0 +1,39 @@
+﻿@model ABC_Retailer.Models.Order
+
+@{
+    var customers = ViewData["Customers"] as List<ABC_Retailer.Models.Customer>;
+    var products = ViewData["Products"] as List<ABC_Retailer.Models.Product>;
+}
+
+<h1>Edit Order</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="PartitionKey" />
+    <input type="hidden" asp-for="RowKey" />
+
+    <div class="form-group">
+        <label asp-for="Order_Id">Order ID</label>
+        <input asp-for="Order_Id" class="form-control" type="number" min="100" max="999" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Customer_Id">Select a Customer</label>
+        <select asp-for="Customer_Id" class="form-control" asp-items="@(new SelectList(customers, "Customer_Id", "Customer_Name", Model.Customer_Id))">
+            <option value="">-- Select Customer --</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Product_Id">Select a Product</label>
+        <select asp-for="Product_Id" class="form-control" asp-items="@(new SelectList(products, "Product_Id", "Product_Name", Model.Product_Id))">
+            <option value="">-- Select Product --</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Order_Address"></label>
+        <input asp-for="Order_Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Order_Date">Order Date</label>
+        <input asp-for="Order_Date" class="form-control" type="datetime-local" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>

@@ -1,0 +1,50 @@
+﻿@model ABC_Retailer.Models.Customer
+
+<h1>Add New Customer</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Customer_Id"></label>
+        <input asp-for="Customer_Id" class="form-control" type="number" min="100" max="999" required placeholder="Enter a three-digit ID" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Customer_Name"></label>
+        <input asp-for="Customer_Name" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="Customer_Surname"></label>
+        <input asp-for="Customer_Surname" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="email"></label>
+        <input asp-for="email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="phoneNumber"></label>
+        <input asp-for="phoneNumber" class="form-control" type="tel" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p style="color:red;">@error.ErrorMessage</p>
+            }
+        </div>
+    }
+</form>
+
+<!-- Script to limit Customer ID input to 3 digits -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const productIdInput = document.querySelector('input[name="Customer_Id"]');
+        productIdInput.addEventListener('input', (event) => {
+            const value = event.target.value;
+            if (value.length > 3) {
+                event.target.value = value.slice(0, 3);
+            }
+        });
+    });
+</script>

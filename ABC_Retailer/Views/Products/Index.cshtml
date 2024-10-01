@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ABC_Retailer.Models.Product>
+
+<h1 class="mb-4">Products</h1>
+
+<a href="@Url.Action("AddProduct", "Products")" class="btn btn-primary mb-3">Add New Product</a>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Product_Name</td>
+                <td>@product.Description</td>
+                <td>@product.Category</td>
+                <td>R @product.Price</td> <!-- Add "R" before the price -->
+                <td>
+                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        <img src="@product.ImageUrl" alt="@product.Product_Name" style="width:100px; height:auto; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">No Image</span>
+                    }
+                </td>
+                <td>
+                  
+                    <!-- Delete Form -->
+                    <form asp-action="DeleteProduct" method="post" style="display:inline;">
+                        <input type="hidden" name="partitionKey" value="@product.PartitionKey" />
+                        <input type="hidden" name="rowKey" value="@product.RowKey" />
+                        <input type="hidden" name="ImageUrl" value="@product.ImageUrl" />
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

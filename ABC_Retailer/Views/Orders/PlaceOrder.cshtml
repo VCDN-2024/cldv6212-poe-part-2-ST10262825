@@ -1,0 +1,62 @@
+﻿@model ABC_Retailer.Models.Order
+
+@{
+    var customers = ViewData["Customers"] as List<ABC_Retailer.Models.Customer>;
+    var products = ViewData["Products"] as List<ABC_Retailer.Models.Product>;
+}
+
+<h1>Register an Order</h1>
+
+@if (customers == null || customers.Count == 0 || products == null || products.Count == 0)
+{
+    <div class="alert alert-warning">
+        No customers or products available. Please ensure they are added first.
+    </div>
+}
+else
+{
+    <form asp-action="PlaceOrder" method="post">
+        <div class="form-group">
+            <label asp-for="Order_Id">Order ID</label>
+            <input asp-for="Order_Id" class="form-control" type="number" min="100" max="999" required placeholder="Enter a three-digit ID" />
+            <span asp-validation-for="Order_Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Customer_Id">Select a Customer</label>
+            <select asp-for="Customer_Id" class="form-control" asp-items="@(new SelectList(customers, "Customer_Id", "Customer_Name"))">
+                <option value="">-- Select Customer --</option>
+            </select>
+            <span asp-validation-for="Customer_Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Product_Id">Select a Product</label>
+            <select asp-for="Product_Id" class="form-control" asp-items="@(new SelectList(products, "Product_Id", "Product_Name"))">
+                <option value="">-- Select Product --</option>
+            </select>
+            <span asp-validation-for="Product_Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Order_Address"></label>
+            <input asp-for="Order_Address" class="form-control" />
+            <span asp-validation-for="Order_Address" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Order_Date">Order Date</label>
+            <input asp-for="Order_Date" class="form-control" type="datetime-local" id="orderDate" />
+            <span asp-validation-for="Order_Date" class="text-danger"></span>
+        </div>
+        <a href="@Url.Action("OrderSuccess", "Orders")" class="btn btn-primary">Submit Order</a>
+    </form>
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const orderIdInput = document.querySelector('input[name="Order_Id"]');
+        orderIdInput.addEventListener('input', (event) => {
+            const value = event.target.value;
+            if (value.length > 3) {
+                event.target.value = value.slice(0, 3);
+            }
+        });
+    });
+</script>

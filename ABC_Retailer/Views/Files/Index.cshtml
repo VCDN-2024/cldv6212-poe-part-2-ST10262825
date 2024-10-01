@@ -1,0 +1,61 @@
+﻿@model List<ABC_Retailer.Models.FileModel>
+
+<h1 class="mb-4">Documents</h1>
+
+<!-- Display any messages from TempData -->
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+
+<!-- Display error message if file upload validation fails -->
+@if (ViewBag.UploadError != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.UploadError
+    </div>
+}
+
+<!-- Form to upload a file -->
+<div class="card p-3 mb-4">
+    <form asp-action="Upload" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="file">Choose a file to upload:</label>
+            <input type="file" name="file" class="form-control" />
+            <button type="submit" class="btn btn-primary mt-2">Upload</button>
+        </div>
+    </form>
+</div>
+
+<!-- Display list of uploaded files -->
+@if (Model != null && Model.Count > 0)
+{
+    <div class="card p-3">
+        <h3>Uploaded Files</h3>
+        <ul class="list-group list-group-flush">
+            @foreach (var file in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>@file.Name</strong> -
+                        Size: @file.DisplaySize -
+                        Last Modified: @file.LastModified?.ToString("g")
+                    </div>
+                    <div>
+                        <!-- Action buttons for download and delete -->
+                        <a asp-action="DownloadFile" asp-route-fileName="@file.Name" class="btn btn-outline-primary btn-sm">Download</a>
+                        <a asp-action="DeleteFile" asp-route-fileName="@file.Name" class="btn btn-outline-danger btn-sm ml-2" onclick="return confirm('Are you sure you want to delete this file?');">Delete</a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning mt-4">
+        <p>No files found or model is null.</p>
+    </div>
+}

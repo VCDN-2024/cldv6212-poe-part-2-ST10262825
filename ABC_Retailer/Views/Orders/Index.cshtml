@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ABC_Retailer.Models.Order>
+
+<h1>All Orders</h1>
+<a href="@Url.Action("Register", "Orders")" class="btn btn-primary">Add New Order</a>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>Product ID</th>
+            <th>Address</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Customer_Id</td>
+                <td>@order.Product_Id</td>
+                <td>@order.Order_Address</td>
+                <td>@order.Order_Date</td>
+                <td>
+                    <!-- Edit Button -->
+                    <a href="@Url.Action("Edit", "Orders", new { partitionKey = order.PartitionKey, rowKey = order.RowKey })" class="btn btn-warning btn-sm">Edit</a>
+
+                    <!-- Confirm Order Button -->
+                    <form asp-action="ConfirmOrder" method="post" style="display:inline;">
+                        <input type="hidden" name="orderId" value="@order.Order_Id" /> <!-- Assuming order has an Id property -->
+                        <a href="@Url.Action("OrderConfirm", "Orders")" class="btn btn-primary">Corfirm Order</a>
+                    </form>
+
+                    <!-- Delete Form -->
+                    <form asp-action="DeleteOrder" method="post" style="display:inline;">
+                        <input type="hidden" name="partitionKey" value="@order.PartitionKey" />
+                        <input type="hidden" name="rowKey" value="@order.RowKey" />
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this order?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
